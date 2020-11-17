@@ -1,0 +1,119 @@
+version: '3.8'
+
+networks:
+  laraApp:
+
+services:
+
+# App
+  site:
+    build:
+      context: .
+      dockerfile: ./.docker/nginx.dockerfile
+    container_name: ${APP_NAME}_nginx
+    ports:
+      - "${APP_PORT}:80"
+    volumes:
+      - ./src:/var/www/html:delegated
+      - ./.docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - laraApp
+
+# MySQL
+  mysql:
+    image: mysql:5.7.29
+    container_name: ${APP_NAME}_mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "${SQL_PORT}:3306"
+    volumes:
+      - ./.docker/mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: ${DB_HOST}
+    networks:
+      - laraApp
+
+# PHP MY ADMIN
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+    - "${PMA_PORT}:80"
+    container_name: ${APP_NAME}_phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: ${DB_HOST}
+      PMA_USER: ${DB_USERNAME}
+      PMA_PASSWORD: ${DB_PASSWORD}
+      PMA_PORT: 3306
+    volumes:
+      - ./.docker/php/uploads.ini:/usr/local/etc/php/conf.d/php-phpmyadmin.ini
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    networks:
+      - laraApp
+
+# PHP
+  php:
+    build:
+      context: .
+      dockerfile: ./.docker/php.dockerfile
+    container_name: ${APP_NAME}_php
+    volumes:
+      - ./src:/var/www/html:delegated
+    ports:
+      - "${PHP_PORT}:9000"
+    networks:
+      - laraApp
+
+# Composer
+  composer:
+    build:
+      context: .
+      dockerfile: ./.docker/composer.dockerfile
+    container_name: ${APP_NAME}_composer
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - php
+    user: laravel
+    networks:
+      - laraApp
+    entrypoint: ['composer', '--ignore-platform-reqs']
+
+# NPM
+  npm:
+    image: node:14.15.1
+    container_name: ${APP_NAME}_npm
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ['npm']
+
+# Artisan
+  artisan:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: ${APP_NAME}_artisan
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - mysql
+    working_dir: /var/www/html
+    user: laravel
+    entrypoint: ['php', '/var/www/html/artisan']
+    networks:
+      - laraApp
