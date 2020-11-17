@@ -108,7 +108,7 @@ services:
   artisan:
     build:
       context: .
-      dockerfile: php.dockerfile
+      dockerfile: ./.docker/php.dockerfile
     container_name: ${APP_NAME}_artisan
     volumes:
       - ./src:/var/www/html:delegated
