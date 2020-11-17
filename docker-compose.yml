@@ -21,6 +21,8 @@ services:
       - mysql
     networks:
       - laraApp
+    environment:
+      - VIRTUAL_HOST=${APP_URL},www.${APP_URL}
 
 # MySQL
   mysql:
