@@ -10,7 +10,7 @@ Complete the data in the .env file\
 Remove Readme file from src\
 `cd src && rm README.md && cd ..`
 
-Run containers\
+Build and run containers\
 `docker-compose up -d --build site`
 
 Create new laravel project\
