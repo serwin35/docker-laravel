@@ -16,6 +16,9 @@ Run containers\
 Create new laravel project\
 `docker-compose run --rm composer create-project --prefer-dist laravel/laravel .`
 
+Update variables in .env file
+`nano src/.env`
+
 Run database migration\
 `docker-compose run --rm artisan migrate`
 
