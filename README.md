@@ -16,7 +16,7 @@ Build and run containers\
 Create new laravel project\
 `docker-compose run --rm composer create-project --prefer-dist laravel/laravel .`
 
-Update variables in .env file
+Update variables in .env file\
 `nano src/.env`
 
 Run database migration\
@@ -33,7 +33,7 @@ Npm\
 `docker-compose run --rm npm run dev`
 
 Stop all running containers\
-`$ docker stop $(docker ps -a -q)`
+`docker stop $(docker ps -a -q)`
 
 ## Default ports
 - App - `8080`
