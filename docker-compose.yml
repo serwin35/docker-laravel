@@ -31,7 +31,7 @@ services:
         ports:
             - "${SQL_PORT}:3306"
         volumes:
-            - ./.docker/mysql:/var/lib/mysql
+            - ./mysql:/var/lib/mysql
         environment:
             MYSQL_DATABASE: ${DB_DATABASE}
             MYSQL_USER: ${DB_USERNAME}
