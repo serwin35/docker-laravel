@@ -4,23 +4,25 @@ A pretty simplified Docker Compose workflow that sets up a LEMP network of conta
 Enjoy it :raised_hands:
 
 ## Installation :dash:
-Complete the data in the .env file\
-`nano .env`
+```bash
+# Complete the data in the .env file
+nano .env
 
-Remove Readme file from src\
-`cd src && rm README.md && cd ..`
+# Remove Readme file from src
+cd src && rm README.md && cd ..
 
-Build and run containers\
-`docker-compose up -d --build site`
+# Build and run containers
+docker-compose up -d --build site
 
-Create new laravel project\
-`docker-compose run --rm composer create-project --prefer-dist laravel/laravel .`
+# Create new laravel project
+docker-compose run --rm composer create-project --prefer-dist laravel/laravel .
 
-Update variables in .env file\
-`nano src/.env`
+# Update variables in .env file
+nano src/.env
 
-Run database migration\
-`docker-compose run --rm artisan migrate`
+# Run database migration\
+docker-compose run --rm artisan migrate
+```
 
 ## Extra commands
 Composer\
