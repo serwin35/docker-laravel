@@ -1,0 +1,6 @@
+# Laravel
+src/bootstrap/cache
+src/node_modules/
+src/storage/framework
+src/storage/logs
+src/vendor
