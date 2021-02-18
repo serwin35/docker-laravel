@@ -42,8 +42,16 @@ Stop all running containers\
 - PHP - `9000`
 - Mysql - `3306`
 - PhpMyAdmin - `70`
+- Redis - `6379`
+- Mailhog - `1025`
+- Mailhog - `8025`
 
 ## Stack
 - PHP (7.4 fpm alpine)
+- nginx (stable-alpine)
 - MySql (5.7.29)
-- Composer (latest)
+- Composer (2)
+- npm (14.15.1)
+- phpMyAdmin (2)
+- Redis (alpine)
+- Mailhog (latest)
