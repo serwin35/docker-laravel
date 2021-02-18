@@ -18,6 +18,8 @@ services:
             - php
             - mysql
             - phpmyadmin
+            - redis
+            - mailhog
         networks:
             - laraApp
         environment:
@@ -112,3 +114,21 @@ services:
         entrypoint: [ 'php', '/var/www/html/artisan' ]
         networks:
             - laraApp
+
+    redis:
+        image: redis:alpine
+        container_name: ${APP_NAME}_redis
+        restart: unless-stopped
+        ports:
+        - ${REDIS_PORT}:6379
+        networks:
+        - laraApp
+
+    mailhog:
+        image: mailhog/mailhog:latest
+        container_name: ${APP_NAME}_mailhog
+        ports:
+        - ${MAILHOG_PORT}:1025
+        - ${MAILHOG1_PORT}:8025
+        networks:
+        - laraApp
