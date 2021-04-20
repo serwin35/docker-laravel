@@ -58,9 +58,9 @@ Stop all running containers\
 
 ## GitHub Actions
 - Deploy
-    - delpoy main application
-    - deploy develop application
-    - Remember add secrets:
+    - main
+    - develop
+    * Remember add secrets:
         - SSH_KEY
         - MAIN_LARAVEL_ENV
         - DEVELOP_LARAVEL_ENV
