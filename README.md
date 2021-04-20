@@ -57,13 +57,13 @@ Stop all running containers\
 - Mailhog (latest)
 
 ## GitHub Actions
+* Remember add secrets:
+    - SSH_KEY
+    - MAIN_LARAVEL_ENV
+    - DEVELOP_LARAVEL_ENV
 - Deploy
     - main
     - develop
-    * Remember add secrets:
-        - SSH_KEY
-        - MAIN_LARAVEL_ENV
-        - DEVELOP_LARAVEL_ENV
 - php cs fixer
 ## Branches
 - main
