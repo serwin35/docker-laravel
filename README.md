@@ -55,3 +55,18 @@ Stop all running containers\
 - phpMyAdmin (2)
 - Redis (alpine)
 - Mailhog (latest)
+
+## GitHub Actions
+- Deploy
+    - delpoy main application
+    - deploy develop application
+    - Remember add secrets:
+        - SSH_KEY
+        - MAIN_LARAVEL_ENV
+        - DEVELOP_LARAVEL_ENV
+- php cs fixer
+## Branches
+- main
+- develop
+- feature/*
+- releases/*
