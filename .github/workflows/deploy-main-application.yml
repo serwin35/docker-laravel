@@ -233,6 +233,7 @@ jobs:
             cd $ACTIVE_RELEASE_PATH
             php artisan key:generate
             php artisan optimize
+            php artisan migrate
             php artisan storage:link
       #      service php8.0-fpm reload
 
