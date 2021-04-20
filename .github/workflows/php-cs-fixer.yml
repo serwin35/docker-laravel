@@ -1,13 +1,17 @@
-name: Check & fix styling
+name: 🔎 Check & fix styling code application
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - main
+      - develop
 
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: 📲 Checkout code
         uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
@@ -20,4 +24,4 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Fix styling
+          commit_message: 🛠️ Fix styling code
