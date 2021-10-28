@@ -8,6 +8,9 @@ services:
         build:
             context: .
             dockerfile: ./.docker/nginx.dockerfile
+            args:
+                - NGINXUSER=${NGINXUSER:-www-data}
+                - NGINXGROUP=${NGINXGROUP:-www-data}
         container_name: ${APP_NAME}_nginx
         ports:
             - "${APP_PORT}:80"
@@ -26,7 +29,7 @@ services:
             - VIRTUAL_HOST=${APP_URL},www.${APP_URL}
 
     mysql:
-        image: mysql:5.7.29
+        image: mariadb:10.6
         container_name: ${APP_NAME}_mysql
         restart: unless-stopped
         tty: true
@@ -69,6 +72,9 @@ services:
         build:
             context: .
             dockerfile: ./.docker/php.dockerfile
+            args:
+                - PHPUSER=${PHPUSER:-www-data}
+                - PHPGROUP=${PHPGROUP:-www-data}
         container_name: ${APP_NAME}_php
         volumes:
             - ./src:/var/www/html:delegated
@@ -81,13 +87,16 @@ services:
         build:
             context: .
             dockerfile: ./.docker/composer.dockerfile
+            args:
+                - PHPUSER=${PHPUSER:-www-data}
+                - PHPGROUP=${PHPGROUP:-www-data}
         container_name: ${APP_NAME}_composer
         volumes:
             - ./src:/var/www/html
         working_dir: /var/www/html
         depends_on:
             - php
-        user: laravel
+        user: ${PHPUSER:-www-data}
         networks:
             - laraApp
         entrypoint: [ 'composer', '--ignore-platform-reqs' ]
@@ -97,13 +106,21 @@ services:
         container_name: ${APP_NAME}_npm
         volumes:
             - ./src:/var/www/html
+        ports:
+            - "${NPM_PORT}:3000"
+            - "${NPM1_PORT}:3001"
         working_dir: /var/www/html
         entrypoint: [ 'npm' ]
+        networks:
+            - laraApp
 
     artisan:
         build:
             context: .
             dockerfile: ./.docker/php.dockerfile
+            args:
+                - PHPUSER=${PHPUSER:-www-data}
+                - PHPGROUP=${PHPGROUP:-www-data}
         container_name: ${APP_NAME}_artisan
         volumes:
             - ./src:/var/www/html:delegated
