@@ -6,11 +6,11 @@ networks:
 services:
     site:
         build:
-            context: .
-            dockerfile: ./.docker/nginx.dockerfile
+            context: ./.docker
+            dockerfile: nginx.dockerfile
             args:
-                - NGINXUSER=${NGINXUSER:-www-data}
-                - NGINXGROUP=${NGINXGROUP:-www-data}
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
         container_name: ${APP_NAME}_nginx
         ports:
             - "${APP_PORT}:80"
@@ -70,11 +70,11 @@ services:
 
     php:
         build:
-            context: .
-            dockerfile: ./.docker/php.dockerfile
+            context: ./.docker
+            dockerfile: php.dockerfile
             args:
-                - PHPUSER=${PHPUSER:-www-data}
-                - PHPGROUP=${PHPGROUP:-www-data}
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
         container_name: ${APP_NAME}_php
         volumes:
             - ./src:/var/www/html:delegated
@@ -85,18 +85,18 @@ services:
 
     composer:
         build:
-            context: .
-            dockerfile: ./.docker/composer.dockerfile
+            context: ./.docker
+            dockerfile: composer.dockerfile
             args:
-                - PHPUSER=${PHPUSER:-www-data}
-                - PHPGROUP=${PHPGROUP:-www-data}
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
         container_name: ${APP_NAME}_composer
         volumes:
             - ./src:/var/www/html
         working_dir: /var/www/html
         depends_on:
             - php
-        user: ${PHPUSER:-www-data}
+        user: laravel
         networks:
             - laraApp
         entrypoint: [ 'composer', '--ignore-platform-reqs' ]
@@ -116,11 +116,11 @@ services:
 
     artisan:
         build:
-            context: .
-            dockerfile: ./.docker/php.dockerfile
+            context: ./.docker
+            dockerfile: php.dockerfile
             args:
-                - PHPUSER=${PHPUSER:-www-data}
-                - PHPGROUP=${PHPGROUP:-www-data}
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
         container_name: ${APP_NAME}_artisan
         volumes:
             - ./src:/var/www/html:delegated
