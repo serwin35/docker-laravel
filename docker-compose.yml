@@ -32,6 +32,8 @@ services:
     tty: true
     ports:
       - ${SQL_PORT}:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
@@ -78,7 +80,7 @@ services:
 
   redis:
     image: redis:alpine
-    container_name: redis
+    container_name: ${APP_NAME}_redis
     restart: unless-stopped
     ports:
       - ${REDIS_PORT}:6379
@@ -139,5 +141,15 @@ services:
     ports:
       - ${MAILHOG_PORT}:1025
       - ${MAILHOG1_PORT}:8025
+    networks:
+      - laravel
+
+  cron:
+    build:
+      context: .
+      dockerfile: ./.docker/cron.dockerfile
+    container_name: ${APP_NAME}_cron
+    volumes:
+      - ./src:/var/www/html:delegated
     networks:
       - laravel
