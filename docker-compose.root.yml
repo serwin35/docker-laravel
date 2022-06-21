@@ -143,3 +143,25 @@ services:
       - ${MAILHOG1_PORT}:8025
     networks:
       - laravel
+
+  cron:
+    build:
+      context: .
+      dockerfile: ./.docker/cron.dockerfile
+    container_name: ${APP_NAME}_cron
+    volumes:
+      - ./src:/var/www/html:delegated
+    networks:
+      - laravel
+  queue:
+    image: php
+    restart: unless-stopped
+    command: bash -c 'php artisan queue:work;'
+    container_name: ${APP_NAME}_queue
+    depends_on:
+        - redis
+    volumes:
+      - ./src:/var/www/html:delegated
+    working_dir: /var/www/html
+    networks:
+      - laravel
