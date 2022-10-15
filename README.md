@@ -86,11 +86,11 @@ The current version of Laravel (8 as of today) uses MailHog as the default appli
 To see the dashboard and view any emails coming through the system, visit [localhost:8025](http://localhost:8025) after running `docker-compose up -d site`.
 
 ## Stack
-- PHP (8.0.12 fpm alpine)
+- PHP (8.1 fpm alpine)
 - nginx (stable-alpine)
 - MariaDB (10.6)
 - Composer (2)
-- npm (14.15.1)
+- npm (18.11)
 - phpMyAdmin (2)
 - Redis (alpine)
 - Mailhog (latest)

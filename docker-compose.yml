@@ -106,7 +106,7 @@ services:
       - laravel
 
   npm:
-    image: node:14.15.1
+    image: node:18.11-alpine
     container_name: ${APP_NAME}_npm
     volumes:
       - ./src:/var/www/html
@@ -153,6 +153,7 @@ services:
       - ./src:/var/www/html:delegated
     networks:
       - laravel
+
   queue:
     image: php
     restart: unless-stopped
