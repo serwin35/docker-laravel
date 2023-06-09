@@ -16,6 +16,9 @@ services:
       - ${APP_PORT}:80
     volumes:
       - ./src:/var/www/html:delegated
+      - ./.docker/nginx/default.d:/etc/nginx/conf.d
+    environment:
+      - APP_DOMAIN=${APP_DOMAIN}
     depends_on:
       - php
       - redis
