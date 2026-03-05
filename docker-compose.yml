@@ -1,5 +1,3 @@
-version: '3'
-
 networks:
   laravel:
 
@@ -24,12 +22,12 @@ services:
       - redis
       - mysql
       - phpmyadmin
-      - mailhog
+      - mailpit
     networks:
       - laravel
 
   mysql:
-    image: mariadb:10.6
+    image: mariadb:11.4
     container_name: ${APP_NAME}_mysql
     restart: unless-stopped
     tty: true
@@ -109,7 +107,7 @@ services:
       - laravel
 
   npm:
-    image: node:18.11-alpine
+    image: node:22-alpine
     container_name: ${APP_NAME}_npm
     volumes:
       - ./src:/var/www/html
@@ -138,9 +136,9 @@ services:
     networks:
       - laravel
 
-  mailhog:
-    image: mailhog/mailhog:latest
-    container_name: ${APP_NAME}_mailhog
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: ${APP_NAME}_mailpit
     ports:
       - ${MAILHOG_PORT}:1025
       - ${MAILHOG1_PORT}:8025
